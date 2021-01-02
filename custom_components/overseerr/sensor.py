@@ -67,11 +67,11 @@ class OverseerrSensor(Entity):
             elif self._label == "music":
                 self._state = self._overseerr.music_requests
             elif self._label == "pending":
-                self._state = self._overseerr.total_requests["pending"]
+                self._state = self._overseerr.pending_requests
             elif self._label == "approved":
-                self._state = self._overseerr.total_requests["approved"]
+                self._state = self._overseerr.approved_requests
             elif self._label == "available":
-                self._state = self._overseerr.total_requests["available"]
+                self._state = self._overseerr.available_requests
         except OverseerrError as err:
             _LOGGER.warning("Unable to update Overseerr sensor: %s", err)
             self._state = None
