@@ -1,0 +1,7 @@
+{
+  "domain": "overseerr",
+  "name": "Overseerr",
+  "documentation": "https://www.home-assistant.io/integrations/overseerr/",
+  "codeowners": ["@vaparr"],
+  "requirements": []
+}
