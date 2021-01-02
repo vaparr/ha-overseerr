@@ -81,7 +81,7 @@ def setup(hass, config):
         host=config[DOMAIN][CONF_HOST],
         port=config[DOMAIN][CONF_PORT],
         urlbase=config[DOMAIN][CONF_URLBASE],
-        username=config[DOMAIN][CONF_USERNAME],
+        username=config[DOMAIN].get(CONF_USERNAME),
         password=config[DOMAIN].get(CONF_PASSWORD),
         api_key=config[DOMAIN].get(CONF_API_KEY),
     )
