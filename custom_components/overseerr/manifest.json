@@ -1,7 +1,7 @@
 {
   "domain": "overseerr",
   "name": "Overseerr",
-  "documentation": "https://www.home-assistant.io/integrations/overseerr/",
+  "documentation": "https://github.com/vaparr/ha-overseerr",
   "codeowners": ["@vaparr"],
-  "requirements": []
+  "requirements": [pyoverseerr==0.1.10"]
 }
