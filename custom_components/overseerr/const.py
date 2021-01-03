@@ -21,6 +21,6 @@ SENSOR_TYPES = {
     "pending": {"type": "Pending requests", "icon": "mdi:clock-alert-outline"},
     "approved": {"type": "Approved requests", "icon": "mdi:check"},
     "available": {"type": "Available requests", "icon": "mdi:download"},
-    "total": {"type": "Movie requests", "icon": "mdi:movie"},
+    "total": {"type": "Total requests", "icon": "mdi:movie"},
 
 }

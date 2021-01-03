@@ -63,6 +63,17 @@ class OverseerrSensor(Entity):
         """Return the state of the sensor."""
         return self._last_item
 
+    @property
+    def device_state_attributes(self):
+        """Attributes."""
+        attributes = self._data.copy()
+        del attributes["name"]
+        del attributes["icon"]
+        del attributes["state"]
+
+        return attributes
+
+
     def update(self):
         """Update the sensor."""
         try:
@@ -77,6 +88,7 @@ class OverseerrSensor(Entity):
                 self._last_item = self._overseerr.last_tv_request
             elif self._label == "music":
                 self._state = self._overseerr.music_requests
+                self._last_item = "Not Supported"
             elif self._label == "pending":
                 self._last_item = self._overseerr.last_pending_request
                 self._state = self._overseerr.pending_requests
