@@ -42,6 +42,8 @@ class OverseerrSensor(Entity):
         self._overseerr = overseerr
         self._icon = icon
         self._last_item = None
+        self._requested_by = None
+        self._media_type= None
 
     @property
     def name(self):
@@ -66,7 +68,11 @@ class OverseerrSensor(Entity):
     @property
     def device_state_attributes(self):
         """Attributes."""
-        attributes ={ 'Last_Item' : self._last_item }
+        attributes ={ 
+            'Last_Item' : self._last_item,
+            'RequestedBy' : self._requested_by,
+            'MediaType': self._media_type
+        }
         return attributes
 
 
@@ -75,18 +81,26 @@ class OverseerrSensor(Entity):
         try:
             if self._label == "movies":
                 self._state = self._overseerr.movie_requests
-                self._last_item = self._overseerr.last_movie_request
+                self._last_item = self._overseerr.last_movie_request['Name']
+                self._requested_by = self._overseerr.last_movie_request['RequestedBy']
+                self._media_type = self._overseerr.last_movie_request['Type']
             elif self._label == "total":
                 self._state = self._overseerr.total_requests
-                self._last_item = self._overseerr.last_total_request
+                self._last_item = self._overseerr.last_total_request['Name']
+                self._requested_by = self._overseerr.last_total_request['RequestedBy']
+                self._media_type = self._overseerr.last_total_request['Type']
             elif self._label == "tv":
                 self._state = self._overseerr.tv_requests
-                self._last_item = self._overseerr.last_tv_request
+                self._last_item = self._overseerr.last_tv_request['Name']
+                self._requested_by = self._overseerr.last_tv_request['RequestedBy']
+                self._media_type = self._overseerr.last_tv_request['Type']
             elif self._label == "music":
                 self._state = self._overseerr.music_requests
                 self._last_item = "Not Supported"
             elif self._label == "pending":
-                self._last_item = self._overseerr.last_pending_request
+                self._last_item = self._overseerr.last_pending_request['Name']
+                self._requested_by = self._overseerr.last_pending_request['RequestedBy']
+                self._media_type = self._overseerr.last_pending_request['Type']
                 self._state = self._overseerr.pending_requests
             elif self._label == "approved":
                 self._state = self._overseerr.approved_requests
