@@ -10,7 +10,7 @@ The `Overseerr` integration monitors data from your [Overseerr](https://overseer
 
 ## Setup
 
-This component needs to authenticate to your Overseerr instance with either a user `password` or an `api_key`.
+This component needs to authenticate to your Overseerr instance using your `api_key`.
 
 To find your `api_key` open the Overseerr web interface. Navigate to **Settings**, you should then be able to see your `api_key`.
 
