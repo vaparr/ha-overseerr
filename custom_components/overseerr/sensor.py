@@ -66,11 +66,7 @@ class OverseerrSensor(Entity):
     @property
     def device_state_attributes(self):
         """Attributes."""
-        attributes = self._data.copy()
-        del attributes["name"]
-        del attributes["icon"]
-        del attributes["state"]
-
+        attributes ={ 'Last_Item' : self._last_item }
         return attributes
 
 
