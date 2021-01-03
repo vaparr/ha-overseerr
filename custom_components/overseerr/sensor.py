@@ -41,6 +41,7 @@ class OverseerrSensor(Entity):
         self._type = sensor_type
         self._overseerr = overseerr
         self._icon = icon
+        self._last_item = None
 
     @property
     def name(self):
@@ -57,16 +58,27 @@ class OverseerrSensor(Entity):
         """Return the state of the sensor."""
         return self._state
 
+    @property
+    def last_item(self):
+        """Return the state of the sensor."""
+        return self._last_item
+
     def update(self):
         """Update the sensor."""
         try:
             if self._label == "movies":
                 self._state = self._overseerr.movie_requests
+                self._last_item = self._overseerr.last_movie_request
+            elif self._label == "total":
+                self._state = self._overseerr.total_requests
+                self._last_item = self._overseerr.last_total_request
             elif self._label == "tv":
                 self._state = self._overseerr.tv_requests
+                self._last_item = self._overseerr.last_tv_request
             elif self._label == "music":
                 self._state = self._overseerr.music_requests
             elif self._label == "pending":
+                self._last_item = self._overseerr.last_pending_request
                 self._state = self._overseerr.pending_requests
             elif self._label == "approved":
                 self._state = self._overseerr.approved_requests
