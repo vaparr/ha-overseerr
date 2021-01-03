@@ -23,8 +23,8 @@ If you want to enable this sensor, add the following lines to your `configuratio
 # Example configuration.yaml entry
 overseerr:
   host: OVERSEERR_HOST
-  username: OVERSEERR_USERNAME
-  password: OVERSEERR_PASSWORD
+  port: OVERSEERR_PORT
+  api_key: OVERSEERR_API_KEY
 ```
 
 {% configuration %}
