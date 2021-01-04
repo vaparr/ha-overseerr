@@ -16,11 +16,10 @@ SERVICE_TV_REQUEST = "submit_tv_request"
 
 SENSOR_TYPES = {
     "movies": {"type": "Movie requests", "icon": "mdi:movie"},
-    "tv": {"type": "TV show requests", "icon": "mdi:television-classic"},
-  #  "music": {"type": "Music album requests", "icon": "mdi:album"},
+    "tv": {"type": "TV Show requests", "icon": "mdi:television-classic"},
+    # "music": {"type": "Music album requests", "icon": "mdi:album"},
     "pending": {"type": "Pending requests", "icon": "mdi:clock-alert-outline"},
- #   "approved": {"type": "Approved requests", "icon": "mdi:check"},
- #   "available": {"type": "Available requests", "icon": "mdi:download"},
+    # "approved": {"type": "Approved requests", "icon": "mdi:check"},
+    # "available": {"type": "Available requests", "icon": "mdi:download"},
     "total": {"type": "Total requests", "icon": "mdi:movie"},
-
 }
