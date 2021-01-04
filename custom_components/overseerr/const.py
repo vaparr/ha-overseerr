@@ -1,8 +1,8 @@
 """Support for Overseerr."""
 ATTR_NAME = "name"
 ATTR_SEASON = "season"
-ATTR_ID = "id"
-ATTR_STATUS = "status"
+ATTR_ID = "request_id"
+ATTR_STATUS = "new_status"
 
 CONF_URLBASE = "urlbase"
 
