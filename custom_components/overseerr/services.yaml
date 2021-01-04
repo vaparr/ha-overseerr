@@ -29,6 +29,6 @@ update_request:
     request_id:
       description: ID of the request to update
       example: 30
-    status:
+    new_status:
       description: New Status (can be pending/approve/decline/available)
       example: "approve"
