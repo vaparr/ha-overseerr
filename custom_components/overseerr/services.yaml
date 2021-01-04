@@ -22,3 +22,13 @@ submit_music_request:
     name:
       description: Search parameter
       example: "nevermind"
+
+update_request:
+  description: Updates the status of specified request to pending/approve/decline/available
+  fields:
+    request_id:
+      description: ID of the request to update
+      example: 30
+    status:
+      description: New Status (can be pending/approve/decline/available)
+      example: "approve"

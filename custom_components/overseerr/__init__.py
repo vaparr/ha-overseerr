@@ -17,6 +17,8 @@ import homeassistant.helpers.config_validation as cv
 from .const import (
     ATTR_NAME,
     ATTR_SEASON,
+    ATTR_ID,
+    ATTR_STATUS,
     CONF_URLBASE,
     DEFAULT_PORT,
     DEFAULT_SEASON,
@@ -26,6 +28,7 @@ from .const import (
     SERVICE_MOVIE_REQUEST,
     SERVICE_MUSIC_REQUEST,
     SERVICE_TV_REQUEST,
+    SERVICE_UPDATE_REQUEST,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -51,6 +54,13 @@ SUBMIT_TV_REQUEST_SERVICE_SCHEMA = vol.Schema(
         vol.Optional(ATTR_SEASON, default=DEFAULT_SEASON): vol.In(
             ["first", "latest", "all"]
         ),
+    }
+)
+
+SERVICE_UPDATE_REQUEST_SCHEMA = vol.Schema(
+    {
+        vol.Required(ATTR_ID): cv.positive_int,
+        vol.Required(ATTR_STATUS): cv.string,
     }
 )
 
@@ -131,6 +141,12 @@ def setup(hass, config):
         else:
             raise Warning("No music album found.")
 
+    def update_request(call):
+        """Update status of specified request."""
+        request_id = call.data[ATTR_ID]
+        status = call.data[ATTR_STATUS]
+        overseerr.update_request(request_id, status)
+
     hass.services.register(
         DOMAIN,
         SERVICE_MOVIE_REQUEST,
@@ -149,6 +165,12 @@ def setup(hass, config):
         submit_tv_request,
         schema=SUBMIT_TV_REQUEST_SERVICE_SCHEMA,
     )
+    hass.services.register(
+        DOMAIN,
+        SERVICE_UPDATE_REQUEST,
+        update_request,
+        schema=SERVICE_UPDATE_REQUEST_SCHEMA,
+    )    
     hass.helpers.discovery.load_platform("sensor", DOMAIN, {}, config)
 
     return True
