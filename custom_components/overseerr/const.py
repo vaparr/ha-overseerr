@@ -1,6 +1,8 @@
 """Support for Overseerr."""
 ATTR_NAME = "name"
 ATTR_SEASON = "season"
+ATTR_ID = "id"
+ATTR_STATUS = "status"
 
 CONF_URLBASE = "urlbase"
 
@@ -13,6 +15,7 @@ DEFAULT_URLBASE = ""
 SERVICE_MOVIE_REQUEST = "submit_movie_request"
 SERVICE_MUSIC_REQUEST = "submit_music_request"
 SERVICE_TV_REQUEST = "submit_tv_request"
+SERVICE_UPDATE_REQUEST = "update_request"
 
 SENSOR_TYPES = {
     "movies": {"type": "Movie requests", "icon": "mdi:movie"},
