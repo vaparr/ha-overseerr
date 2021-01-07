@@ -3,5 +3,5 @@
   "name": "Overseerr",
   "documentation": "https://github.com/vaparr/ha-overseerr",
   "codeowners": ["@vaparr"],
-  "requirements": ["pyoverseerr==0.1.17"]
+  "requirements": ["pyoverseerr==0.1.18"]
 }
