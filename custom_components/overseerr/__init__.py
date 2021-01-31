@@ -3,6 +3,8 @@ import logging
 
 import pyoverseerr
 import voluptuous as vol
+import asyncio
+import json
 
 from homeassistant.const import (
     ATTR_ENTITY_ID,
@@ -33,7 +35,7 @@ from .const import (
 )
 DEPENDENCIES = ['webhook']
 _LOGGER = logging.getLogger(__name__)
-
+EVENT_RECEIVED = "OVERSEERR_EVENT"
 
 
 def urlbase(value) -> str:
@@ -172,9 +174,19 @@ def setup(hass, config):
         SERVICE_UPDATE_REQUEST,
         update_request,
         schema=SERVICE_UPDATE_REQUEST_SCHEMA,
-    )    
+    )
+    
     hass.helpers.discovery.load_platform("sensor", DOMAIN, {}, config)
-    hass.components.webhook.async_register(DOMAIN, "Overseerr", api_key, handle_webhook)
+ 
+    webhook_id = config[DOMAIN].get(CONF_API_KEY)
+    _LOGGER.debug("webhook_id: %s", webhook_id)
+
+    _LOGGER.info("Overseerr Installing Webhook")
+
+    hass.components.webhook.async_register(DOMAIN, "Overseerr", webhook_id, handle_webhook)
+
+    url = hass.components.webhook.async_generate_url(webhook_id)
+    _LOGGER.debug("webhook data: %s", url)
 
     return True
 
@@ -189,6 +201,6 @@ async def handle_webhook(hass, webhook_id, request):
     published_data = {}
     published_data['requestid'] = data.get('message')
     _LOGGER.info("webhook data: %s", published_data)
-    await hass.services.async_call("homeassistant", "update_entity". {ATTR_ENTITY_ID: ["sensor.overseerr_pending_requests"]}, blocking=True)
+    await hass.services.async_call("homeassistant", "update_entity", {ATTR_ENTITY_ID: ["sensor.overseerr_pending_requests"]}, blocking=True)
     hass.bus.async_fire(EVENT_RECEIVED, published_data)    
 
