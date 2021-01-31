@@ -5,6 +5,7 @@ import pyoverseerr
 import voluptuous as vol
 
 from homeassistant.const import (
+    ATTR_ENTITY_ID,
     CONF_API_KEY,
     CONF_HOST,
     CONF_PASSWORD,
@@ -30,8 +31,9 @@ from .const import (
     SERVICE_TV_REQUEST,
     SERVICE_UPDATE_REQUEST,
 )
-
+DEPENDENCIES = ['webhook']
 _LOGGER = logging.getLogger(__name__)
+
 
 
 def urlbase(value) -> str:
@@ -172,5 +174,21 @@ def setup(hass, config):
         schema=SERVICE_UPDATE_REQUEST_SCHEMA,
     )    
     hass.helpers.discovery.load_platform("sensor", DOMAIN, {}, config)
+    hass.components.webhook.async_register(DOMAIN, "Overseerr", api_key, handle_webhook)
 
     return True
+
+async def handle_webhook(hass, webhook_id, request):
+    """Handle webhook callback."""
+    body = await request.text()
+    try:
+        data = json.loads(body) if body else {}
+    except ValueError:
+        return None
+
+    published_data = {}
+    published_data['requestid'] = data.get('message')
+    _LOGGER.info("webhook data: %s", published_data)
+    await hass.services.async_call("homeassistant", "update_entity". {ATTR_ENTITY_ID: ["sensor.overseerr_pending_requests"]}, blocking=True)
+    hass.bus.async_fire(EVENT_RECEIVED, published_data)    
+
