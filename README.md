@@ -96,7 +96,7 @@ for the Webhook URL use:
 
 {{HA SERVER URL}}/api/webhook/{{OVERSEERR API KEY}}
 
-http://homassist.local:8123/api/webhook/VGhpcyBpcyBteSBBUEkgS0VZVGhpcyBpcyBteSBBUEkgS0VZCg==
+http://homassist.local:8123/api/webhook/MTYwODIpppppppppppppppYzLTI0OqqqqqqqqqqqqzIwLeeeeeee==
 
 Select only the box "Media Requested"
 payload can be left as default
