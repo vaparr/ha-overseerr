@@ -9,6 +9,15 @@ ha_domain: overseerr
 The `Overseerr` integration monitors data from your [Overseerr](https://overseerr.dev) instance.
 
 ## Setup
+Install of this component should be done via HACS
+* Go into HACS -> Intregrations
+* 3 Dots -> Custom Repositories
+* Add Custom Repository URL: https://github.com/vaparr/ha-overseerr
+* Category: Integration
+
+Restart HA
+
+---
 
 This component needs to authenticate to your Overseerr instance using your `api_key`.
 
