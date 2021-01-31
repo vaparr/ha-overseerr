@@ -35,7 +35,7 @@ overseerr:
   port: OVERSEERR_PORT
   api_key: OVERSEERR_API_KEY
 ```
-
+```
 {% configuration %}
 host:
   description: The hostname or IP Address Overseerr is running on.
@@ -56,7 +56,7 @@ ssl:
   default: false
   type: boolean
 {% endconfiguration %}
-
+```
 ## Full example for the configuration
 
 ```yaml
