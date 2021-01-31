@@ -50,10 +50,6 @@ port:
   required: false
   default: 5055
   type: integer
-urlbase:
-  description: The Base URL path of your Overseerr instance.
-  required: false
-  type: string
 ssl:
   description: Whether or not to use SSL when connecting to Overseerr.
   required: false
