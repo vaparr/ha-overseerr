@@ -84,3 +84,21 @@ Searches and requests the closest matching TV show.
 |------------------------|----------|-----------------------------------------------------------------------------------------------|
 | `name`                 |       no | Search parameter.                                                                             |
 | `season`               |      yes | Which season(s) to request. Must be one of `first`, `latest` or `all`. Defaults to latest.    |
+
+## WebHook support
+
+You can enable Webhook support in Overseerr to enable faster pending sensor updates.
+
+In overseerr, navigate to Settings -> Noticications > Webhook
+Check Enable Agent
+
+for the Webhook URL use:
+
+{{HA SERVER URL}}/api/webhook/{{OVERSEERR API KEY}}
+
+http://homassist.local:8123/api/webhook/VGhpcyBpcyBteSBBUEkgS0VZVGhpcyBpcyBteSBBUEkgS0VZCg==
+
+Select only the box "Media Requested"
+payload can be left as default
+
+
