@@ -90,6 +90,7 @@ Searches and requests the closest matching TV show.
 You can enable Webhook support in Overseerr to enable faster pending sensor updates.
 
 In overseerr, navigate to Settings -> Noticications > Webhook
+
 Check Enable Agent
 
 for the Webhook URL use:
