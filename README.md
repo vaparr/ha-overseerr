@@ -104,7 +104,7 @@ for the Webhook URL use:
 
 http://homassist.local:8123/api/webhook/MTYwODIpppppppppppppppYzLTI0OqqqqqqqqqqqqzIwLeeeeeee==
 
-Select only the box "Media Requested"
+Select only the boxes "Media Requested", "Media Approved"
 
 * payload can be left as default
 
