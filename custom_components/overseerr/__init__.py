@@ -192,15 +192,30 @@ def setup(hass, config):
 
 async def handle_webhook(hass, webhook_id, request):
     """Handle webhook callback."""
+    _LOGGER.info("webhook called")
+
     body = await request.text()
     try:
         data = json.loads(body) if body else {}
     except ValueError:
         return None
+    _LOGGER.info("webhook data: %s", body)
 
-    published_data = {}
-    published_data['requestid'] = data.get('message')
+    published_data = data
+#    published_data['requestid'] = data.get('message')
     _LOGGER.info("webhook data: %s", published_data)
-    await hass.services.async_call("homeassistant", "update_entity", {ATTR_ENTITY_ID: ["sensor.overseerr_pending_requests"]}, blocking=True)
+    try:
+        if data['notification_type'] == 'MEDIA_PENDING':
+            await hass.services.async_call("homeassistant", "update_entity", {ATTR_ENTITY_ID: ["sensor.overseerr_pending_requests"]}, blocking=True)
+        if data['media']['media_type'] == 'movie':
+            await hass.services.async_call("homeassistant", "update_entity", {ATTR_ENTITY_ID: ["sensor.overseerr_movie_requests"]}, blocking=True)
+        if data['media']['media_type'] == 'tv':
+            await hass.services.async_call("homeassistant", "update_entity", {ATTR_ENTITY_ID: ["sensor.overseerr_tv_show_requests"]}, blocking=True)
+        await hass.services.async_call("homeassistant", "update_entity", {ATTR_ENTITY_ID: ["sensor.overseerr_total_requests"]}, blocking=False)
+
+    except Exception:
+        pass
+
+ 
     hass.bus.async_fire(EVENT_RECEIVED, published_data)    
 
