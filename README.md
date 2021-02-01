@@ -9,6 +9,15 @@ ha_domain: overseerr
 The `Overseerr` integration monitors data from your [Overseerr](https://overseerr.dev) instance.
 
 ## Setup
+Install of this component should be done via HACS
+* Go into HACS -> Intregrations
+* 3 Dots -> Custom Repositories
+* Add Custom Repository URL: https://github.com/vaparr/ha-overseerr
+* Category: Integration
+
+Restart HA
+
+---
 
 This component needs to authenticate to your Overseerr instance using your `api_key`.
 
@@ -26,7 +35,7 @@ overseerr:
   port: OVERSEERR_PORT
   api_key: OVERSEERR_API_KEY
 ```
-
+```
 {% configuration %}
 host:
   description: The hostname or IP Address Overseerr is running on.
@@ -41,17 +50,13 @@ port:
   required: false
   default: 5055
   type: integer
-urlbase:
-  description: The Base URL path of your Overseerr instance.
-  required: false
-  type: string
 ssl:
   description: Whether or not to use SSL when connecting to Overseerr.
   required: false
   default: false
   type: boolean
 {% endconfiguration %}
-
+```
 ## Full example for the configuration
 
 ```yaml
@@ -84,3 +89,23 @@ Searches and requests the closest matching TV show.
 |------------------------|----------|-----------------------------------------------------------------------------------------------|
 | `name`                 |       no | Search parameter.                                                                             |
 | `season`               |      yes | Which season(s) to request. Must be one of `first`, `latest` or `all`. Defaults to latest.    |
+
+## WebHook support
+
+You can enable Webhook support in Overseerr to enable faster pending sensor updates.
+
+In overseerr, navigate to Settings -> Noticications > Webhook
+
+Check Enable Agent
+
+for the Webhook URL use:
+
+{{HA SERVER URL}}/api/webhook/{{OVERSEERR API KEY}}
+
+http://homassist.local:8123/api/webhook/MTYwODIpppppppppppppppYzLTI0OqqqqqqqqqqqqzIwLeeeeeee==
+
+Select only the box "Media Requested"
+
+* payload can be left as default
+
+
