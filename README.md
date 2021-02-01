@@ -108,4 +108,5 @@ Select only the boxes "Media Requested", "Media Approved"
 
 * payload can be left as default
 
+Authorization Header will most likley need to be left blank.
 
