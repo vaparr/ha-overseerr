@@ -14,8 +14,11 @@ from homeassistant.const import (
     CONF_PORT,
     CONF_SSL,
     CONF_USERNAME,
+    CONF_SCAN_INTERVAL,
 )
 import homeassistant.helpers.config_validation as cv
+
+from homeassistant.helpers.event import track_time_interval
 
 from .const import (
     ATTR_NAME,
@@ -27,6 +30,7 @@ from .const import (
     DEFAULT_SEASON,
     DEFAULT_SSL,
     DEFAULT_URLBASE,
+    DEFAULT_SCAN_INTERVAL,
     DOMAIN,
     SERVICE_MOVIE_REQUEST,
     SERVICE_MUSIC_REQUEST,
@@ -79,6 +83,7 @@ CONFIG_SCHEMA = vol.Schema(
                 vol.Optional(CONF_PORT, default=DEFAULT_PORT): cv.port,
                 vol.Optional(CONF_URLBASE, default=DEFAULT_URLBASE): urlbase,
                 vol.Optional(CONF_SSL, default=DEFAULT_SSL): cv.boolean,
+                vol.Optional(CONF_SCAN_INTERVAL, default=DEFAULT_SCAN_INTERVAL): cv.time_period,
             },
             cv.has_at_least_one_key("auth"),
         )
@@ -99,6 +104,8 @@ def setup(hass, config):
         password=config[DOMAIN].get(CONF_PASSWORD),
         api_key=config[DOMAIN].get(CONF_API_KEY),
     )
+
+    scan_interval=config[DOMAIN][CONF_SCAN_INTERVAL]
 
     try:
         overseerr.authenticate()
@@ -151,6 +158,11 @@ def setup(hass, config):
         status = call.data[ATTR_STATUS]
         overseerr.update_request(request_id, status)
 
+    def update_sensors(event_time):
+        """Call to update sensors."""
+        _LOGGER.debug("Updating sensors")
+        asyncio.run_coroutine_threadsafe( hass.data[DOMAIN].async_update(), hass.loop)
+
     hass.services.register(
         DOMAIN,
         SERVICE_MOVIE_REQUEST,
@@ -187,6 +199,9 @@ def setup(hass, config):
 
     url = hass.components.webhook.async_generate_url(webhook_id)
     _LOGGER.debug("webhook data: %s", url)
+
+    # register scan interval
+    track_time_interval(hass, update_sensors, scan_interval)
 
     return True
 

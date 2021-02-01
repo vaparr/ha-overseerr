@@ -10,8 +10,7 @@ from .const import DOMAIN, SENSOR_TYPES
 
 _LOGGER = logging.getLogger(__name__)
 
-SCAN_INTERVAL = timedelta(seconds=60)
-
+# SCAN_INTERVAL = timedelta(seconds=60)
 
 def setup_platform(hass, config, add_entities, discovery_info=None):
     """Set up the Overseerr sensor platform."""
