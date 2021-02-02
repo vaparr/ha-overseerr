@@ -112,6 +112,8 @@ http://homassist.local:8123/api/webhook/MTYwODIpppppppppppppppYzLTI0Oqqqqqqqqqqq
 
 Select only the boxes "Media Requested", "Media Approved"
 
+* You will also want to have 'Enable Notifications for Auto-Approved Requests' checked in the global notifications area
+
 * payload can be left as default
 
 Authorization Header will most likley need to be left blank.
