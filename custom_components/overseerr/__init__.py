@@ -6,6 +6,8 @@ import voluptuous as vol
 import asyncio
 import json
 
+from datetime import timedelta
+
 from homeassistant.const import (
     ATTR_ENTITY_ID,
     CONF_API_KEY,
@@ -30,7 +32,6 @@ from .const import (
     DEFAULT_SEASON,
     DEFAULT_SSL,
     DEFAULT_URLBASE,
-    DEFAULT_SCAN_INTERVAL,
     DOMAIN,
     SERVICE_MOVIE_REQUEST,
     SERVICE_MUSIC_REQUEST,
@@ -83,7 +84,7 @@ CONFIG_SCHEMA = vol.Schema(
                 vol.Optional(CONF_PORT, default=DEFAULT_PORT): cv.port,
                 vol.Optional(CONF_URLBASE, default=DEFAULT_URLBASE): urlbase,
                 vol.Optional(CONF_SSL, default=DEFAULT_SSL): cv.boolean,
-                vol.Optional(CONF_SCAN_INTERVAL, default=DEFAULT_SCAN_INTERVAL): cv.time_period,
+                vol.Optional(CONF_SCAN_INTERVAL, default=timedelta(seconds=60)): cv.time_period,
             },
             cv.has_at_least_one_key("auth"),
         )
@@ -158,10 +159,15 @@ def setup(hass, config):
         status = call.data[ATTR_STATUS]
         overseerr.update_request(request_id, status)
 
-    def update_sensors(event_time):
+    async def update_sensors(event_time):
         """Call to update sensors."""
-        _LOGGER.debug("Updating sensors")
-        asyncio.run_coroutine_threadsafe( hass.data[DOMAIN].async_update(), hass.loop)
+        _LOGGER.info("Updating sensors")
+        # asyncio.run_coroutine_threadsafe( hass.data[DOMAIN].update(), hass.loop)
+        await hass.services.async_call("homeassistant", "update_entity", {ATTR_ENTITY_ID: ["sensor.overseerr_pending_requests"]}, blocking=True)
+        await hass.services.async_call("homeassistant", "update_entity", {ATTR_ENTITY_ID: ["sensor.overseerr_movie_requests"]}, blocking=True)
+        await hass.services.async_call("homeassistant", "update_entity", {ATTR_ENTITY_ID: ["sensor.overseerr_tv_show_requests"]}, blocking=True)
+        await hass.services.async_call("homeassistant", "update_entity", {ATTR_ENTITY_ID: ["sensor.overseerr_total_requests"]}, blocking=False)
+
 
     hass.services.register(
         DOMAIN,
