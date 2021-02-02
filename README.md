@@ -34,6 +34,7 @@ overseerr:
   host: OVERSEERR_HOST
   port: OVERSEERR_PORT
   api_key: OVERSEERR_API_KEY
+  scan_interval: 600
 ```
 ```
 {% configuration %}
@@ -55,6 +56,11 @@ ssl:
   required: false
   default: false
   type: boolean
+scan_interval:
+  description: Polling interval for Overseerr in seconds
+  required: false
+  default: 60
+  type: integer
 {% endconfiguration %}
 ```
 ## Full example for the configuration
@@ -109,4 +115,7 @@ Select only the boxes "Media Requested", "Media Approved"
 * payload can be left as default
 
 Authorization Header will most likley need to be left blank.
+
+With webhooks enabled, you dont really need to poll overseerr anymore, so we suggest setting the scan_interval to a large value like 600 or more
+
 
