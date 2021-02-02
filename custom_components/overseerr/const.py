@@ -11,7 +11,7 @@ DEFAULT_PORT = 5055
 DEFAULT_SEASON = "latest"
 DEFAULT_SSL = False
 DEFAULT_URLBASE = ""
-DEFAULT_SCAN_INTERVAL = 60
+DEFAULT_SCAN_INTERVAL = timedelta(seconds=60)
 
 SERVICE_MOVIE_REQUEST = "submit_movie_request"
 SERVICE_MUSIC_REQUEST = "submit_music_request"
