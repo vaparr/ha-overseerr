@@ -10,8 +10,7 @@ from .const import DOMAIN, SENSOR_TYPES
 
 _LOGGER = logging.getLogger(__name__)
 
-SCAN_INTERVAL = timedelta(seconds=60)
-
+SCAN_INTERVAL = timedelta(seconds=86400)
 
 def setup_platform(hass, config, add_entities, discovery_info=None):
     """Set up the Overseerr sensor platform."""
@@ -65,6 +64,7 @@ class OverseerrSensor(Entity):
 
     def update(self):
         """Update the sensor."""
+        _LOGGER.debug("Update Overseerr sensor: %s", self.name)
         try:
             if self._label == "movies":
                 self._state = self._overseerr.movie_requests                

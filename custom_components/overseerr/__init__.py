@@ -6,6 +6,8 @@ import voluptuous as vol
 import asyncio
 import json
 
+from datetime import timedelta
+
 from homeassistant.const import (
     ATTR_ENTITY_ID,
     CONF_API_KEY,
@@ -14,8 +16,11 @@ from homeassistant.const import (
     CONF_PORT,
     CONF_SSL,
     CONF_USERNAME,
+    CONF_SCAN_INTERVAL,
 )
 import homeassistant.helpers.config_validation as cv
+
+from homeassistant.helpers.event import track_time_interval
 
 from .const import (
     ATTR_NAME,
@@ -79,6 +84,7 @@ CONFIG_SCHEMA = vol.Schema(
                 vol.Optional(CONF_PORT, default=DEFAULT_PORT): cv.port,
                 vol.Optional(CONF_URLBASE, default=DEFAULT_URLBASE): urlbase,
                 vol.Optional(CONF_SSL, default=DEFAULT_SSL): cv.boolean,
+                vol.Optional(CONF_SCAN_INTERVAL, default=timedelta(seconds=60)): cv.time_period,
             },
             cv.has_at_least_one_key("auth"),
         )
@@ -99,6 +105,8 @@ def setup(hass, config):
         password=config[DOMAIN].get(CONF_PASSWORD),
         api_key=config[DOMAIN].get(CONF_API_KEY),
     )
+
+    scan_interval=config[DOMAIN][CONF_SCAN_INTERVAL]
 
     try:
         overseerr.authenticate()
@@ -151,6 +159,16 @@ def setup(hass, config):
         status = call.data[ATTR_STATUS]
         overseerr.update_request(request_id, status)
 
+    async def update_sensors(event_time):
+        """Call to update sensors."""
+        _LOGGER.debug("Updating sensors")
+        # asyncio.run_coroutine_threadsafe( hass.data[DOMAIN].update(), hass.loop)
+        await hass.services.async_call("homeassistant", "update_entity", {ATTR_ENTITY_ID: ["sensor.overseerr_pending_requests"]}, blocking=True)
+        await hass.services.async_call("homeassistant", "update_entity", {ATTR_ENTITY_ID: ["sensor.overseerr_movie_requests"]}, blocking=True)
+        await hass.services.async_call("homeassistant", "update_entity", {ATTR_ENTITY_ID: ["sensor.overseerr_tv_show_requests"]}, blocking=True)
+        await hass.services.async_call("homeassistant", "update_entity", {ATTR_ENTITY_ID: ["sensor.overseerr_total_requests"]}, blocking=False)
+
+
     hass.services.register(
         DOMAIN,
         SERVICE_MOVIE_REQUEST,
@@ -187,6 +205,9 @@ def setup(hass, config):
 
     url = hass.components.webhook.async_generate_url(webhook_id)
     _LOGGER.debug("webhook data: %s", url)
+
+    # register scan interval
+    track_time_interval(hass, update_sensors, scan_interval)
 
     return True
 
