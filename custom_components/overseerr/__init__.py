@@ -161,7 +161,7 @@ def setup(hass, config):
 
     async def update_sensors(event_time):
         """Call to update sensors."""
-        _LOGGER.info("Updating sensors")
+        _LOGGER.debug("Updating sensors")
         # asyncio.run_coroutine_threadsafe( hass.data[DOMAIN].update(), hass.loop)
         await hass.services.async_call("homeassistant", "update_entity", {ATTR_ENTITY_ID: ["sensor.overseerr_pending_requests"]}, blocking=True)
         await hass.services.async_call("homeassistant", "update_entity", {ATTR_ENTITY_ID: ["sensor.overseerr_movie_requests"]}, blocking=True)
