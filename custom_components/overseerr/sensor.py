@@ -68,11 +68,11 @@ class OverseerrSensor(Entity):
         try:
             if self._label == "issues":
                 issueCounts = self._overseerr.issueCounts
-
+                lastIssue = self._overseerr.last_issue
                 self._state = issueCounts["open"]
-                merged_dict = self._overseerr.last_issue
-                for key in issueCounts:
-                    merged_dict[key] = issueCounts[key]
+                merged_dict = issueCounts
+                for key in lastIssue:
+                    merged_dict[key] = lastIssue[key]
                 self._last_request = merged_dict
 
             if self._label == "movies":
