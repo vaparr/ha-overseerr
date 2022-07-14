@@ -25,4 +25,5 @@ SENSOR_TYPES = {
     # "approved": {"type": "Approved requests", "icon": "mdi:check"},
     # "available": {"type": "Available requests", "icon": "mdi:download"},
     "total": {"type": "Total requests", "icon": "mdi:movie"},
+    "issues": {"type":"Issues", "icon": "mdi:movie"},
 }

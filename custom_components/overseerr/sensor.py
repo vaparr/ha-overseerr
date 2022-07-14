@@ -66,6 +66,10 @@ class OverseerrSensor(Entity):
         """Update the sensor."""
         _LOGGER.debug("Update Overseerr sensor: %s", self.name)
         try:
+            if self._label == "issues":
+                self._state = self._overseerr.issueCounts.open              
+                self._last_request = self._overseerr.last_issue
+                self._last_request += self._overseerr.issueCounts
             if self._label == "movies":
                 self._state = self._overseerr.movie_requests                
                 self._last_request = self._overseerr.last_movie_request
