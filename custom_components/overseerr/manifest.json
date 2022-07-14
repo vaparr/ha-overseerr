@@ -4,6 +4,6 @@
   "documentation": "https://github.com/vaparr/ha-overseerr",
   "issue_tracker": "https://github.com/vaparr/ha-overseerr/issues",
   "codeowners": ["@vaparr"],
-  "requirements": ["pyoverseerr==0.1.31"],
-  "version": "0.1.31"
+  "requirements": ["pyoverseerr==0.1.32"],
+  "version": "0.1.32"
 }
