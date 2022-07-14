@@ -67,9 +67,14 @@ class OverseerrSensor(Entity):
         _LOGGER.debug("Update Overseerr sensor: %s", self.name)
         try:
             if self._label == "issues":
-                self._state = self._overseerr.issueCounts.open              
-                self._last_request = self._overseerr.last_issue
-                self._last_request += self._overseerr.issueCounts
+                issueCounts = self._overseerr.issueCounts
+
+                self._state = issueCounts["open"]
+                merged_dict = self._overseerr.last_issue
+                for key in issueCounts:
+                    merged_dict[key] = issueCounts[key]
+                self._last_request = merged_dict
+
             if self._label == "movies":
                 self._state = self._overseerr.movie_requests                
                 self._last_request = self._overseerr.last_movie_request
