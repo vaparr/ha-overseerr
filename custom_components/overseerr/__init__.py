@@ -123,7 +123,7 @@ def setup(hass, config):
         movies = overseerr.search_movie(name)
         if movies:
             movie = movies[0]
-            overseerr.request_movie(movie["theMovieDbId"])
+            overseerr.request_movie(movie["mediaInfo"]["tmdbId"])
         else:
             raise Warning("No movie found.")
 
