@@ -5,5 +5,5 @@
   "issue_tracker": "https://github.com/vaparr/ha-overseerr/issues",
   "codeowners": ["@vaparr"],
   "requirements": ["pyoverseerr==0.1.40"],
-  "version": "0.1.40"
+  "version": "0.1.41"
 }

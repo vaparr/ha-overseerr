@@ -120,7 +120,7 @@ def setup(hass, config):
     def submit_movie_request(call):
         """Submit request for movie."""
         name = call.data[ATTR_NAME]
-        movies = overseerr.search_movie(name)
+        movies = overseerr.search_movie(name)["results"]
         if movies:
             movie = movies[0]
             overseerr.request_movie(movie["mediaInfo"]["tmdbId"])
@@ -130,7 +130,7 @@ def setup(hass, config):
     def submit_tv_request(call):
         """Submit request for TV show."""
         name = call.data[ATTR_NAME]
-        tv_shows = overseerr.search_tv(name)
+        tv_shows = overseerr.search_tv(name)["results"]
 
         if tv_shows:
             season = call.data[ATTR_SEASON]
