@@ -12,6 +12,7 @@ _LOGGER = logging.getLogger(__name__)
 
 SCAN_INTERVAL = timedelta(seconds=86400)
 
+
 def setup_platform(hass, config, add_entities, discovery_info=None):
     """Set up the Overseerr sensor platform."""
     if discovery_info is None:
@@ -25,7 +26,8 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
         sensor_label = sensor
         sensor_type = SENSOR_TYPES[sensor]["type"]
         sensor_icon = SENSOR_TYPES[sensor]["icon"]
-        sensors.append(OverseerrSensor(sensor_label, sensor_type, overseerr, sensor_icon))
+        sensors.append(OverseerrSensor(
+            sensor_label, sensor_type, overseerr, sensor_icon))
 
     add_entities(sensors, True)
 
@@ -71,12 +73,13 @@ class OverseerrSensor(Entity):
                 lastIssue = self._overseerr.last_issue
                 self._state = issueCounts["open"]
                 merged_dict = issueCounts
-                for key in lastIssue:
-                    merged_dict[key] = lastIssue[key]
+                if (lastIssue is not None):
+                    for key in lastIssue:
+                        merged_dict[key] = lastIssue[key]
                 self._last_request = merged_dict
 
             if self._label == "movies":
-                self._state = self._overseerr.movie_requests                
+                self._state = self._overseerr.movie_requests
                 self._last_request = self._overseerr.last_movie_request
             elif self._label == "total":
                 self._state = self._overseerr.total_requests
@@ -89,7 +92,7 @@ class OverseerrSensor(Entity):
                 self._last_request = "Not Supported"
             elif self._label == "pending":
                 self._state = self._overseerr.pending_requests
-                self._last_request = self._overseerr.last_pending_request                
+                self._last_request = self._overseerr.last_pending_request
             elif self._label == "approved":
                 self._state = self._overseerr.approved_requests
             elif self._label == "available":
