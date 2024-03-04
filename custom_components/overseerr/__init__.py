@@ -8,6 +8,7 @@ import json
 
 from datetime import timedelta
 
+from homeassistant.components.webhook import async_register, async_generate_url
 from homeassistant.const import (
     ATTR_ENTITY_ID,
     CONF_API_KEY,
@@ -202,9 +203,9 @@ def setup(hass, config):
 
     _LOGGER.info("Overseerr Installing Webhook")
 
-    hass.components.webhook.async_register(DOMAIN, "Overseerr", webhook_id, handle_webhook)
+    async_register(hass, DOMAIN, "Overseerr", webhook_id, handle_webhook)
 
-    url = hass.components.webhook.async_generate_url(webhook_id)
+    url = async_generate_url(hass, webhook_id)
     _LOGGER.debug("webhook data: %s", url)
 
     # register scan interval
